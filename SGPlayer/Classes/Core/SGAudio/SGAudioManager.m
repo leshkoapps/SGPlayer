@@ -404,6 +404,28 @@ SGAudioOutputContext;
         [self delegateWarningCallback];
     }
     
+    result = AudioUnitSetProperty(self.outputContext->outputNodeContext.audioUnit,
+                                  kAudioUnitProperty_MaximumFramesPerSlice,
+                                  kAudioUnitScope_Global,
+                                  0,
+                                  &max_frame_size,
+                                  sizeof(max_frame_size));
+    self.warning = checkError(result, @"graph set output max frames per slice size error");
+    if (self.warning) {
+        [self delegateWarningCallback];
+    }
+    
+    result = AudioUnitSetProperty(self.outputContext->converterNodeContext.audioUnit,
+                                  kAudioUnitProperty_MaximumFramesPerSlice,
+                                  kAudioUnitScope_Global,
+                                  0,
+                                  &max_frame_size,
+                                  sizeof(max_frame_size));
+    self.warning = checkError(result, @"graph set converter max frames per slice size error");
+    if (self.warning) {
+        [self delegateWarningCallback];
+    }
+    
     result = AUGraphInitialize(self.outputContext->graph);
     self.error = checkError(result, @"graph initialize error");
     if (self.error) {
