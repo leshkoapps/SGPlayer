@@ -98,17 +98,26 @@ static NSString * const AVMediaSelectionOptionTrackIDKey = @"MediaSelectionOptio
             break;
     }
     
-    [self.avPlayer play];
+    [self startInternalPlayer];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         switch (self.state) {
             case SGPlayerStateBuffering:
             case SGPlayerStatePlaying:
             case SGPlayerStateReadyToPlay:
-                [self.avPlayer play];
+                [self startInternalPlayer];
             default:
                 break;
         }
     });
+}
+
+- (void)startInternalPlayer{
+    if([self.avPlayer respondsToSelector:@selector(playImmediatelyAtRate:)]){
+        [self.avPlayer playImmediatelyAtRate:1.0];
+    }
+    else{
+        [self.avPlayer play];
+    }
 }
 
 - (void)startBuffering
@@ -131,7 +140,7 @@ static NSString * const AVMediaSelectionOptionTrackIDKey = @"MediaSelectionOptio
 - (void)resumeStateAfterBuffering
 {
     if (self.playing) {
-        [self.avPlayer play];
+        [self startInternalPlayer];
         self.state = SGPlayerStatePlaying;
     } else if (self.state == SGPlayerStateBuffering) {
         self.state = self.stateBeforBuffering;
@@ -141,7 +150,7 @@ static NSString * const AVMediaSelectionOptionTrackIDKey = @"MediaSelectionOptio
 - (BOOL)playIfNeed
 {
     if (self.playing) {
-        [self.avPlayer play];
+        [self startInternalPlayer];
         self.state = SGPlayerStatePlaying;
         return YES;
     }
