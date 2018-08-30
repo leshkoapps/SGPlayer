@@ -97,6 +97,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign, readonly) BOOL seekEnable;
 @property (nonatomic, assign, readonly) BOOL seeking;
+@property (nonatomic, strong, readonly) NSDictionary *metadata;
+    
 - (void)seekToTime:(NSTimeInterval)time;
 - (void)seekToTime:(NSTimeInterval)time completeHandler:(nullable void(^)(BOOL finished))completeHandler;
 

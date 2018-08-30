@@ -48,7 +48,7 @@
 - (void)seekToTime:(NSTimeInterval)time completeHandler:(void(^)(BOOL finished))completeHandler;
 
 @property (nonatomic, assign, readonly) BOOL videoDecodeOnMainThread;
-
+@property (nonatomic, strong, readonly) NSDictionary *metadata;
 
 #pragma mark - track info
 

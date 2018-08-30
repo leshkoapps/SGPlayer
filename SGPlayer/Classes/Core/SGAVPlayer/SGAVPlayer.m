@@ -10,6 +10,7 @@
 #import "SGPlayer+DisplayView.h"
 #import "SGPlayerMacro.h"
 #import "SGPlayerNotification.h"
+#import "SGAVPlayerMetadata.h"
 #import <AVFoundation/AVFoundation.h>
 
 static CGFloat const PixelBufferRequestInterval = 0.03f;
@@ -231,6 +232,12 @@ static NSString * const AVMediaSelectionOptionTrackIDKey = @"MediaSelectionOptio
         return 0;
     }
     return CMTimeGetSeconds(self.avPlayerItem.duration);;
+}
+
+- (NSDictionary *)metadata{
+    AVAsset *asset = self.avPlayerItem.asset;
+    NSDictionary *metadata = [SGAVPlayerMetadata commonMetaDataForAsset:asset error:nil];
+    return metadata;
 }
 
 - (double)percentForTime:(NSTimeInterval)time duration:(NSTimeInterval)duration

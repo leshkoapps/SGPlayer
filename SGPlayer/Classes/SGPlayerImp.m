@@ -124,6 +124,24 @@
     }
 }
 
+- (NSDictionary *)metadata{
+    NSDictionary *meta = nil;
+    switch (self.decoderType){
+        
+        case SGDecoderTypeAVPlayer:
+            meta = self.avPlayer.metadata;
+        break;
+        
+        case SGDecoderTypeFFmpeg:
+            meta = self.ffPlayer.metadata;
+        break;
+        
+        default:
+        break;
+    }
+    return meta;
+}
+
 - (void)play
 {
 #if SGPLATFORM_TARGET_OS_IPHONE_OR_TV

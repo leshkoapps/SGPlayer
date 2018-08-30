@@ -208,6 +208,23 @@
     }
 }
 
+- (NSDictionary *)metadata{
+    NSDictionary *audioMeta = self.decoder.audioTrack.metadata.metadata;
+    NSDictionary *videoMeta = self.decoder.videoTrack.metadata.metadata;
+    NSDictionary *commonMeta = self.decoder.metadata;
+    NSMutableDictionary *allMeta = [[NSMutableDictionary alloc] init];
+    if(audioMeta.count>0){
+        [allMeta addEntriesFromDictionary:audioMeta];
+    }
+    if(videoMeta.count>0){
+        [allMeta addEntriesFromDictionary:videoMeta];
+    }
+    if(commonMeta.count>0){
+        [allMeta addEntriesFromDictionary:commonMeta];
+    }
+    return allMeta;
+}
+    
 - (NSTimeInterval)duration
 {
     return self.decoder.duration;

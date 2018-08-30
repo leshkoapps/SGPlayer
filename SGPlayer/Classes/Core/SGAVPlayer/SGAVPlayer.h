@@ -43,6 +43,8 @@
 - (void)stop;
 
 @property (nonatomic, assign, readonly) BOOL seekEnable;
+@property (nonatomic, strong, readonly) NSDictionary *metadata;
+
 - (void)seekToTime:(NSTimeInterval)time;
 - (void)seekToTime:(NSTimeInterval)time completeHandler:(void(^)(BOOL finished))completeHandler;
 
