@@ -7,6 +7,7 @@
 //
 
 #import <SGPlatform/SGPlatform.h>
+#import <AVFoundation/AVFoundation.h>
 #import "SGPlayerTrack.h"
 #import "SGPlayerDecoder.h"
 
@@ -47,6 +48,34 @@ typedef NS_ENUM(NSUInteger, SGPlayerBackgroundMode) {
     SGPlayerBackgroundModeContinue,
 };
 
+@class AVPlayer;
+@class AVPlayerItem;
+@class AVAsset;
+
+@protocol SGAVPlayerCreationDelegate <NSObject>
+
+@optional
+
+- (AVPlayer *_Nullable)createAVPlayerWithPlayerItem:(AVPlayerItem *_Nullable)playerItem;
+
+- (AVPlayerItem *_Nullable)createAVPlayerItemWithAsset:(AVAsset *_Nullable)asset automaticallyLoadedAssetKeys:(nullable NSArray<NSString *> *)automaticallyLoadedAssetKeys;
+
+@end
+
+
+@protocol SGAudioProcessingDelegate <NSObject>
+
+@optional
+
+- (void)postRenderFrames:(UInt32)numberOfFrames outputData:(float *)outputData numberOfChannels:(UInt32)numberOfChannels format:(AudioStreamBasicDescription)format;
+
+@end
+
+
+
+
+
+
 
 #pragma mark - SGPlayer
 
@@ -54,7 +83,7 @@ typedef NS_ENUM(NSUInteger, SGPlayerBackgroundMode) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SGPlayer : NSObject
+@interface SGPlayer : NSObject <SGAVPlayerCreationDelegate,SGAudioProcessingDelegate>
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;

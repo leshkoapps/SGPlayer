@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
+#import <Accelerate/Accelerate.h>
 
 typedef NS_ENUM(NSUInteger, SGAudioManagerInterruptionType) {
     SGAudioManagerInterruptionTypeBegin,
@@ -24,8 +27,13 @@ typedef NS_ENUM(NSUInteger, SGAudioManagerRouteChangeReason) {
 
 @class SGAudioManager;
 
+
 @protocol SGAudioManagerDelegate <NSObject>
+
 - (void)audioManager:(SGAudioManager *)audioManager outputData:(float *)outputData numberOfFrames:(UInt32)numberOfFrames numberOfChannels:(UInt32)numberOfChannels;
+
+- (void)audioManager:(SGAudioManager *)audioManager postRenderFrames:(UInt32)numberOfFrames outputData:(float *)outputData numberOfChannels:(UInt32)numberOfChannels format:(AudioStreamBasicDescription)format;
+
 @end
 
 typedef void (^SGAudioManagerInterruptionHandler)(id handlerTarget, SGAudioManager * audioManager, SGAudioManagerInterruptionType type, SGAudioManagerInterruptionOption option);

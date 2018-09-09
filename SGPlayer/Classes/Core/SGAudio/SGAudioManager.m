@@ -8,9 +8,6 @@
 
 #import <SGPlatform/SGPlatform.h>
 #import "SGAudioManager.h"
-#import <AudioToolbox/AudioToolbox.h>
-#import <AVFoundation/AVFoundation.h>
-#import <Accelerate/Accelerate.h>
 #import "SGPlayerMacro.h"
 
 #if SGPLATFORM_TARGET_OS_MAC
@@ -450,6 +447,8 @@ SGAudioOutputContext;
     {
         [self.delegate audioManager:self outputData:self->_outData numberOfFrames:numberOfFrames numberOfChannels:self.numberOfChannels];
         
+        [self.delegate audioManager:self postRenderFrames:numberOfFrames outputData:self->_outData numberOfChannels:self.numberOfChannels format:self.outputContext->commonFormat];
+        
         UInt32 numBytesPerSample = self.outputContext->commonFormat.mBitsPerChannel / 8;
         if (numBytesPerSample == 4) {
             float zero = 0.0;
@@ -481,6 +480,7 @@ SGAudioOutputContext;
                 }
             }
         }
+        
     }
     
     return noErr;

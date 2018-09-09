@@ -469,6 +469,14 @@
     }
 }
 
+- (void)audioManager:(SGAudioManager *)audioManager postRenderFrames:(UInt32)numberOfFrames outputData:(float *)outputData numberOfChannels:(UInt32)numberOfChannels format:(AudioStreamBasicDescription)format{
+    if (!self.playing) {
+        return;
+    }
+    if([self.abstractPlayer respondsToSelector:@selector(postRenderFrames:outputData:numberOfChannels:format:)]){
+        [self.abstractPlayer postRenderFrames:numberOfFrames outputData:outputData numberOfChannels:numberOfChannels format:format];
+    }
+}
 
 #pragma mark - Track Info
 

@@ -533,7 +533,12 @@ static NSString * const AVMediaSelectionOptionTrackIDKey = @"MediaSelectionOptio
 
 - (void)setupAVPlayer
 {
-    self.avPlayer = [AVPlayer playerWithPlayerItem:self.avPlayerItem];
+    if([self.abstractPlayer respondsToSelector:@selector(createAVPlayerWithPlayerItem:)]){
+        self.avPlayer = [self.abstractPlayer createAVPlayerWithPlayerItem:self.avPlayerItem];
+    }
+    else{
+        self.avPlayer = [AVPlayer playerWithPlayerItem:self.avPlayerItem];
+    }
     /*
     if ([UIDevice currentDevice].systemVersion.floatValue >= 10.0) {
         self.avPlayer.automaticallyWaitsToMinimizeStalling = NO;
@@ -569,10 +574,14 @@ static NSString * const AVMediaSelectionOptionTrackIDKey = @"MediaSelectionOptio
 
 - (void)setupAVPlayerItemAutoLoadedAsset:(BOOL)autoLoadedAsset
 {
-    if (autoLoadedAsset) {
-        self.avPlayerItem = [AVPlayerItem playerItemWithAsset:self.avAsset automaticallyLoadedAssetKeys:[self.class AVAssetloadKeys]];
-    } else {
-        self.avPlayerItem = [AVPlayerItem playerItemWithAsset:self.avAsset];
+    
+    NSArray <NSString *> *keys = autoLoadedAsset?[self.class AVAssetloadKeys]:nil;
+    
+    if([self.abstractPlayer respondsToSelector:@selector(createAVPlayerItemWithAsset:automaticallyLoadedAssetKeys:)]){
+        self.avPlayerItem = [self.abstractPlayer createAVPlayerItemWithAsset:self.avAsset automaticallyLoadedAssetKeys:keys];
+    }
+    else{
+        self.avPlayerItem = [AVPlayerItem playerItemWithAsset:self.avAsset automaticallyLoadedAssetKeys:keys];
     }
     
     [self.avPlayerItem addObserver:self forKeyPath:@"status" options:0 context:NULL];
