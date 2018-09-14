@@ -159,6 +159,11 @@ SGAudioOutputContext;
         }
     }
 #if SGPLATFORM_TARGET_OS_IPHONE_OR_TV
+    if (@available(iOS 11.0, *)) {
+        [self.audioSession setCategory:AVAudioSessionCategoryPlayback mode:AVAudioSessionModeDefault routeSharingPolicy:AVAudioSessionRouteSharingPolicyLongForm options:0 error:nil];
+    } else {
+        [self.audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
+    }
     [self.audioSession setActive:YES error:nil];
 #endif
     return self.registered;
