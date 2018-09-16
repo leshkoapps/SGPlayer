@@ -658,7 +658,7 @@ static NSString * const AVMediaSelectionOptionTrackIDKey = @"MediaSelectionOptio
     static NSArray * keys = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        keys =@[@"tracks", @"playable"];
+        keys =@[ @"tracks", @"playable", @"duration"];
     });
     return keys;
 }
