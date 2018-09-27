@@ -144,10 +144,6 @@
 
 - (void)play
 {
-#if SGPLATFORM_TARGET_OS_IPHONE_OR_TV
-    [UIApplication sharedApplication].idleTimerDisabled = YES;
-#endif
-    
     switch (self.decoderType)
     {
         case SGDecoderTypeAVPlayer:
@@ -163,10 +159,6 @@
 
 - (void)pause
 {
-#if SGPLATFORM_TARGET_OS_IPHONE_OR_TV
-    [UIApplication sharedApplication].idleTimerDisabled = NO;
-#endif
-    
     switch (self.decoderType)
     {
         case SGDecoderTypeAVPlayer:
@@ -182,10 +174,6 @@
 
 - (void)stop
 {
-#if SGPLATFORM_TARGET_OS_IPHONE_OR_TV
-    [UIApplication sharedApplication].idleTimerDisabled = NO;
-#endif
-    
     [self replaceVideoWithURL:nil];
 }
 
@@ -359,10 +347,6 @@
     self.ffPlayer = nil;
     
     [self cleanPlayerView];
-    
-#if SGPLATFORM_TARGET_OS_IPHONE_OR_TV
-    [UIApplication sharedApplication].idleTimerDisabled = NO;
-#endif
     
     self.needAutoPlay = NO;
     self.error = nil;
