@@ -114,7 +114,7 @@ static NSString * const AVMediaSelectionOptionTrackIDKey = @"MediaSelectionOptio
 
 - (void)startInternalPlayer{
     if([self.avPlayer respondsToSelector:@selector(playImmediatelyAtRate:)]){
-        [self.avPlayer playImmediatelyAtRate:1.0];
+        [self.avPlayer playImmediatelyAtRate:self.abstractPlayer.playbackRate];
     }
     else{
         [self.avPlayer play];
