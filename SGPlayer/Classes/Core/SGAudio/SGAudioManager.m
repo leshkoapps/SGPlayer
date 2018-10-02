@@ -406,6 +406,8 @@ SGAudioOutputContext;
         [self delegateWarningCallback];
     }
     
+    //https://developer.apple.com/library/archive/qa/qa1606/_index.html
+    
     result = AudioUnitSetProperty(self.outputContext->outputNodeContext.audioUnit,
                                   kAudioUnitProperty_MaximumFramesPerSlice,
                                   kAudioUnitScope_Global,
